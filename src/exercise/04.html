@@ -3,105 +3,43 @@
 
 <body>
   <div id="root"></div>
-
   <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.9.3/babel.js"></script>
   <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <script type="text/babel">
-    // ex 04
-
     function Message({children}) {
       return <div className="message">{children}</div>;
     }
 
-    const helloElem = Message({children: 'Hello World'});
-    const goodByeElem = Message({children: 'Goodbye World'});
-    const helloElemen2 = React.createElement(Message, {
-      children: 'Hello World',
-    });
-    const goodByeElem2 = React.createElement(Message, {
-      children: 'Goodbye World',
-    });
-
-    // extra credit 3: Proptype
-
-    const pTypes = {
-      string(props, propName, componentName) {
+    function MessageWithType({subject, greeting}) {
+      return (
+        <div className="message">
+          {greeting}, {subject}
+        </div>
+      );
+    }
+    MessageWithType.propTypes = {
+      subject(props, propName, componentName) {
         const type = typeof props[propName];
         if (type !== 'string') {
           return new Error(
-            `the component ${componentName} needs the prop ${propName} to be a type of string`,
+            `Component ${componentName}'s props ${propName} was passed a "${type}" instead of a "string"`,
           );
         }
       },
-    };
-
-    function Message2({subject, greeting}) {
-      return (
-        <div className="message">
-          {greeting}, {subject}
-        </div>
-      );
-    }
-    Message2.propTypes = {
-      subject: pTypes.string,
-      greeting: pTypes.string,
-    };
-
-    //extra credit 4: Use the prop-types package
-
-    function Message3({subject, greeting}) {
-      return (
-        <div className="message">
-          {greeting}, {subject}
-        </div>
-      );
-    }
-    Message3.propTypes = {
-      subject: PropTypes.string.isRequired,
       greeting: PropTypes.string.isRequired,
     };
 
-    //extra credit 5: using React Fragments
-
-    const element4 = (
-      <React.Fragment>
-        <Message3 greeting="Hello" subject="World" />
-        <Message3 greeting="Goodbye" subject="World" />
-      </React.Fragment>
-    );
-
-    const element5 = (
+    const element = (
       <>
-        <Message3 greeting="Hello" subject="World" />
-        <Message3 greeting="Goodbye" subject="World" />
+        {Message({children: 'hello World'})}
+        {React.createElement(Message, {}, 'Goodbye World')}
+        <Message>React World</Message>
+        <MessageWithType greeting={2} subject={1} />
       </>
     );
 
-    // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
-
-    const element = (
-      <div className="container">
-        {helloElem}
-        {goodByeElem2}
-      </div>
-    );
-
-    const element2 = (
-      <div className="container">
-        <Message>Hello World</Message>
-        <Message>Goodbye World</Message>
-      </div>
-    );
-
-    const element3 = (
-      <div className="container">
-        <Message3 subject="World" />
-        <Message2 subject="World" />
-      </div>
-    );
-
-    ReactDOM.render(element5, document.getElementById('root'));
+    ReactDOM.render(element, document.getElementById('root'));
   </script>
 </body>

@@ -4,68 +4,42 @@
 import React from 'react';
 import '../box-styles.css';
 
-// ex 05: Styling
-
 const smallBox = (
   <div
     className="box box--small"
-    style={{fontStyle: 'italic', backgroundColor: 'lightblue'}}
+    style={{background: 'lightblue', fontStyle: 'italic'}}
   >
     small lightblue box
   </div>
 );
-const mediumBox = (
-  <div
-    className="box box--medium"
-    style={{fontStyle: 'italic', backgroundColor: 'pink'}}
-  >
-    medium pink box
-  </div>
-);
-const largeBox = (
-  <div
-    className="box box--large"
-    style={{fontStyle: 'italic', backgroundColor: 'orange'}}
-  >
-    large orange box
-  </div>
-);
 
-// extra 1: Create a custom component
-
-const Box = ({className, style, children}) => {
-  console.log(style);
+function Box({className = '', style, children}) {
   return (
     <div className={`box ${className}`} style={{fontStyle: 'italic', ...style}}>
       {children}
     </div>
   );
-};
+}
 
-//extra 2: accept a size prop to encapsulate styling
-
-const Box2 = ({size, style, children}) => {
-  const classSize = size ? `box box--${size}` : 'box';
-
+function Box2({size, style, children}) {
   return (
-    <div className={classSize} style={{fontStyle: 'italic', ...style}}>
+    <div className={`box box--${size}`} style={{fontStyle: 'italic', ...style}}>
       {children}
     </div>
   );
-};
+}
 
 function App() {
   return (
     <div>
-      <Box2 size="small" style={{backgroundColor: 'lightblue'}}>
-        small lightblue box
-      </Box2>
-      <Box2 size="medium" style={{backgroundColor: 'pink'}}>
+      {smallBox}
+      <Box className="box--medium" style={{backgroundColor: 'pink'}}>
         medium pink box
-      </Box2>
+      </Box>
       <Box2 size="large" style={{backgroundColor: 'orange'}}>
         large orange box
       </Box2>
+      <Box>sizeless box</Box>
     </div>
   );
 }

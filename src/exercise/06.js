@@ -1,71 +1,70 @@
 // Basic Forms
 // http://localhost:3000/isolated/exercise/06.js
 
-import React from 'react';
+import React, {useState} from 'react';
 
 function UsernameForm({onSubmitUsername}) {
-  const usernameInputRef = React.useRef('');
-  const [error, setError] = React.useState(null);
-  const [username, setUsername] = React.useState('');
-
-  // ex 6: Forms
+  // const refValue = React.useRef('');
+  const [error, setError] = useState('');
+  const [username, setUsername] = useState('');
 
   function handleSubmit(event) {
-    const value = event.target.elements.usernameInput.value;
-
-    event.preventDefault();
-    onSubmitUsername(value);
-  }
-
-  // extra 1: using refs
-
-  function handleSubmit2(event) {
     event.preventDefault();
     onSubmitUsername(username);
   }
+  /**
+   * extra 1: using refs
+   */
 
-  // extra 2: Validate lower-case
+  // function handleSubmit(event) {
+  //   const value = refValue.current.value;
 
-  const isLowercase = value => {
-    return value === value.toLowerCase() ? true : false;
-  };
+  //   event.preventDefault();
+  //   onSubmitUsername(value);
+  // }
 
-  const handleChange = event => {
-    const {value} = event.target;
-    const isValid = isLowercase(value);
+  /**
+   * extra 2: Validate lower-case
+   */
 
-    setError(isValid ? '' : 'Username must be lower case');
-  };
-
-  //extra 3: Control the input value
-
-  const isError = async value => {
-    const isValid = isLowercase(value);
-    setError(isValid ? '' : 'Username must be lower case');
-  };
-
-  const handleChange2 = event => {
-    const {value} = event.target;
+  function handleChange(event) {
+    const value = event.target.value;
+    const isValid = value.toLowerCase() === value;
 
     setUsername(value);
-    isError(value);
-  };
+    setError(isValid ? null : 'Username must be lower case');
+  }
+
+  function AlertContainer() {
+    return !error ? null : (
+      <div role="alert" style={{color: 'red'}}>
+        {error}
+      </div>
+    );
+  }
+
+  /**
+   * extra 3: Control the input value
+   */
+
+  // function handleChange2(event) {
+  //   const value = event.target.value;
+
+  //   setUsername(value.toLowerCase());
+  // }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="usernameInput">Username:</label>
+        <label htmlFor="username">Username:</label>
         <input
-          id="usernameInput"
           type="text"
-          onChange={handleChange2}
+          id="username"
           value={username}
-          ref={usernameInputRef}
+          onChange={handleChange}
         />
       </div>
-      <div role="alert" style={{color: 'red'}}>
-        {error}
-      </div>
+      <AlertContainer />
       <button disabled={Boolean(error)} type="submit">
         Submit
       </button>

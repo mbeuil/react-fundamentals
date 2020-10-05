@@ -8,8 +8,8 @@
   <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
 
   <script type="module">
-    const helloElement = React.createElement('span', {}, 'hello');
-    const worldElement = React.createElement('span', {}, 'world');
+    const helloElement = React.createElement('span', {}, 'Hello');
+    const worldElemnt = React.createElement('span', {}, 'World');
     const reactElement = React.createElement(
       'div',
       {
@@ -17,7 +17,7 @@
       },
       helloElement,
       ' ',
-      worldElement,
+      worldElemnt,
     );
 
     ReactDOM.render(reactElement, document.getElementById('root'));
